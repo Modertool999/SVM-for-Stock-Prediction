@@ -3,11 +3,12 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn import svm
 from sklearn import model_selection
+import matplotlib.pyplot as plt
 
 # read the data
-# BE SURE TO CHANGE THE CSV DATA SET TO YOUR OWN DATA SET MODI!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-df = pandas.read_csv('techsectordatareal.csv')
-daysAhead = 270
+df = pandas.read_csv('C:\\Users\\moder\\Downloads\\Master Tech Sector Data Analysis 2 - Sheet1.csv')
+print(df)
+daysAhead = 1
 
 # calculate price volatility array given company
 def calcPriceVolatility(numDays, priceArray):
@@ -26,7 +27,7 @@ def calcPriceVolatility(numDays, priceArray):
 		volatilityArray.append(np.mean(movingVolatilityArray))
 
 	return volatilityArray
-
+	
 # calculate momentum array
 def calcMomentum(numDays, priceArray):
 	global daysAhead
@@ -42,7 +43,6 @@ def calcMomentum(numDays, priceArray):
 		momentumArray.append(np.mean(movingMomentumArray))
 
 	return momentumArray
-
 def makeModelAndPredict(permno, numDays, sectorVolatility, sectorMomentum, splitNumber):
 	global df
 	global daysAhead
@@ -93,7 +93,6 @@ def makeModelAndPredict(permno, numDays, sectorVolatility, sectorMomentum, split
 	score = rbf_svm.score(X_test, y_test)
 	print(score)
 	return score
-
 def main():
 	global df
 
@@ -102,12 +101,12 @@ def main():
 	companiesNotFull = [12084, 13407, 14542, 93002, 15579] # companies without full dates
 
 	# read the tech sector data
-	ndxtdf = pandas.read_csv('ndxtdata.csv')
+	ndxtdf = pandas.read_csv('C:\\Users\\moder\\Downloads\\VGHCX.csv')
 	ndxtdf = ndxtdf.sort_values(by=['Date'], ascending=True)
 	ndxtPrices = list(ndxtdf['Close'])
 
 	# find when 2012 starts
-	startOfTwelve = list(df[df['PERMNO'] == 10107]['date']).index(20120103)
+	startOfTwelve = list(df[df['PERMNO'] == 1]['DATE']).index(20120103)
 
 	# we want to predict where it will be on the next day based on X days previous
 	numDaysArray = [5, 10, 20, 90, 270] # day, week, month, quarter, year
@@ -148,3 +147,7 @@ def main():
 
 if __name__ == "__main__": 
 	main()
+
+	
+	
+	
